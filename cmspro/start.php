@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | CMSPRO v1.0.0
 // +----------------------------------------------------------------------
@@ -10,20 +11,22 @@
 // +----------------------------------------------------------------------
 /*
  * CMSPRO系统各种类入口
-*/
+ */
 //载入基本配置
 require PATH . "/cmspro/config.php";
 //载入系统操作类
 require PATH . "/cmspro/class.php";
 //错误输出
 cp::error();
+
 class cmspro {
+
     /**
      * 系统框架引导
      */
     public static function init() {
         //安全过滤
-        cp::webscan(1,_ADMIN_,_URL_);
+        cp::webscan(1, _ADMIN_, _URL_);
         //采用目录结构方式
         $url = cp::url();
         //控制器
@@ -68,6 +71,8 @@ class cmspro {
             require $common;
         }
         if (!is_dir($Controller_dir)) {
+            header('HTTP/1.1 301 Moved Permanently');
+            header('Location: /');
             exit($controller . '控制器不存在');
         }
         //判断控制器文件是否存在
@@ -80,7 +85,8 @@ class cmspro {
                 require $method;
             }
         } else {
-            exit($controller.'控制器中的' . $appsfile . '方法不存在');
+            exit($controller . '控制器中的' . $appsfile . '方法不存在');
         }
     }
+
 }
